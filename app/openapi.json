@@ -44,14 +44,14 @@
         }
       }
     },
-    "/students/": {
+    "/api/v1/students/": {
       "get": {
         "tags": [
           "Students"
         ],
         "summary": "Get all students",
-        "description": "Retrieve all students with optional filtering",
-        "operationId": "get_students_students__get",
+        "description": "Retrieve all students with optional filtering and pagination metadata",
+        "operationId": "get_students_api_v1_students__get",
         "parameters": [
           {
             "name": "skip",
@@ -72,10 +72,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 1000,
+              "maximum": 100,
               "minimum": 1,
               "description": "Maximum number of students to return",
-              "default": 100,
+              "default": 10,
               "title": "Limit"
             },
             "description": "Maximum number of students to return"
@@ -160,11 +160,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/StudentResponse"
-                  },
-                  "title": "Response Get Students Students  Get"
+                  "$ref": "#/components/schemas/PaginatedResponse_StudentResponse_"
                 }
               }
             }
@@ -187,7 +183,7 @@
         ],
         "summary": "Create new student",
         "description": "Create a new student",
-        "operationId": "create_student_students__post",
+        "operationId": "create_student_api_v1_students__post",
         "requestBody": {
           "required": true,
           "content": {
@@ -242,14 +238,14 @@
         }
       }
     },
-    "/students/{student_id}": {
+    "/api/v1/students/{student_id}": {
       "get": {
         "tags": [
           "Students"
         ],
         "summary": "Get student by ID",
         "description": "Retrieve a specific student by ID with room information",
-        "operationId": "get_student_students__student_id__get",
+        "operationId": "get_student_api_v1_students__student_id__get",
         "parameters": [
           {
             "name": "student_id",
@@ -300,7 +296,7 @@
         ],
         "summary": "Update student",
         "description": "Update an existing student",
-        "operationId": "update_student_students__student_id__put",
+        "operationId": "update_student_api_v1_students__student_id__put",
         "parameters": [
           {
             "name": "student_id",
@@ -371,7 +367,7 @@
         ],
         "summary": "Delete student",
         "description": "Delete a student",
-        "operationId": "delete_student_students__student_id__delete",
+        "operationId": "delete_student_api_v1_students__student_id__delete",
         "parameters": [
           {
             "name": "student_id",
@@ -417,14 +413,14 @@
         }
       }
     },
-    "/students/{student_id}/move": {
+    "/api/v1/students/{student_id}/move": {
       "patch": {
         "tags": [
           "Students"
         ],
         "summary": "Move student to different room",
         "description": "Move a student to a different room or unassign from room",
-        "operationId": "move_student_students__student_id__move_patch",
+        "operationId": "move_student_api_v1_students__student_id__move_patch",
         "parameters": [
           {
             "name": "student_id",
@@ -490,14 +486,14 @@
         }
       }
     },
-    "/rooms/": {
+    "/api/v1/rooms/": {
       "get": {
         "tags": [
           "Rooms"
         ],
         "summary": "Get all rooms",
-        "description": "Retrieve all rooms",
-        "operationId": "get_rooms_rooms__get",
+        "description": "Retrieve all rooms with pagination metadata",
+        "operationId": "get_rooms_api_v1_rooms__get",
         "parameters": [
           {
             "name": "skip",
@@ -518,10 +514,10 @@
             "required": false,
             "schema": {
               "type": "integer",
-              "maximum": 1000,
+              "maximum": 100,
               "minimum": 1,
               "description": "Maximum number of rooms to return",
-              "default": 100,
+              "default": 10,
               "title": "Limit"
             },
             "description": "Maximum number of rooms to return"
@@ -533,11 +529,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/RoomResponse"
-                  },
-                  "title": "Response Get Rooms Rooms  Get"
+                  "$ref": "#/components/schemas/PaginatedResponse_RoomResponse_"
                 }
               }
             }
@@ -560,7 +552,7 @@
         ],
         "summary": "Create new room",
         "description": "Create a new room",
-        "operationId": "create_room_rooms__post",
+        "operationId": "create_room_api_v1_rooms__post",
         "requestBody": {
           "required": true,
           "content": {
@@ -605,14 +597,14 @@
         }
       }
     },
-    "/rooms/{room_id}": {
+    "/api/v1/rooms/{room_id}": {
       "get": {
         "tags": [
           "Rooms"
         ],
         "summary": "Get room by ID",
         "description": "Retrieve a specific room by ID",
-        "operationId": "get_room_rooms__room_id__get",
+        "operationId": "get_room_api_v1_rooms__room_id__get",
         "parameters": [
           {
             "name": "room_id",
@@ -663,7 +655,7 @@
         ],
         "summary": "Update room",
         "description": "Update an existing room",
-        "operationId": "update_room_rooms__room_id__put",
+        "operationId": "update_room_api_v1_rooms__room_id__put",
         "parameters": [
           {
             "name": "room_id",
@@ -724,7 +716,7 @@
         ],
         "summary": "Delete room",
         "description": "Delete a room (only if no students are assigned)",
-        "operationId": "delete_room_rooms__room_id__delete",
+        "operationId": "delete_room_api_v1_rooms__room_id__delete",
         "parameters": [
           {
             "name": "room_id",
@@ -780,14 +772,14 @@
         }
       }
     },
-    "/rooms/{room_id}/students": {
+    "/api/v1/rooms/{room_id}/students": {
       "get": {
         "tags": [
           "Rooms"
         ],
         "summary": "Get students in room",
-        "description": "Get all students assigned to a specific room",
-        "operationId": "get_students_in_room_rooms__room_id__students_get",
+        "description": "Get all students assigned to a specific room with pagination metadata",
+        "operationId": "get_students_in_room_api_v1_rooms__room_id__students_get",
         "parameters": [
           {
             "name": "room_id",
@@ -797,6 +789,33 @@
               "type": "integer",
               "title": "Room Id"
             }
+          },
+          {
+            "name": "skip",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Number of students to skip",
+              "default": 0,
+              "title": "Skip"
+            },
+            "description": "Number of students to skip"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "Maximum number of students to return",
+              "default": 10,
+              "title": "Limit"
+            },
+            "description": "Maximum number of students to return"
           }
         ],
         "responses": {
@@ -805,11 +824,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/StudentResponse"
-                  },
-                  "title": "Response Get Students In Room Rooms  Room Id  Students Get"
+                  "$ref": "#/components/schemas/PaginatedResponse_StudentResponse_"
                 }
               }
             }
@@ -876,6 +891,116 @@
         },
         "type": "object",
         "title": "HTTPValidationError"
+      },
+      "PaginatedResponse_RoomResponse_": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/RoomResponse"
+            },
+            "type": "array",
+            "title": "Data",
+            "description": "List of items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "description": "Total number of items"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page",
+            "description": "Current page number"
+          },
+          "size": {
+            "type": "integer",
+            "title": "Size",
+            "description": "Items per page"
+          },
+          "pages": {
+            "type": "integer",
+            "title": "Pages",
+            "description": "Total number of pages"
+          },
+          "has_next": {
+            "type": "boolean",
+            "title": "Has Next",
+            "description": "Whether there is a next page",
+            "readOnly": true
+          },
+          "has_prev": {
+            "type": "boolean",
+            "title": "Has Prev",
+            "description": "Whether there is a previous page",
+            "readOnly": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "total",
+          "page",
+          "size",
+          "pages",
+          "has_next",
+          "has_prev"
+        ],
+        "title": "PaginatedResponse[RoomResponse]"
+      },
+      "PaginatedResponse_StudentResponse_": {
+        "properties": {
+          "data": {
+            "items": {
+              "$ref": "#/components/schemas/StudentResponse"
+            },
+            "type": "array",
+            "title": "Data",
+            "description": "List of items"
+          },
+          "total": {
+            "type": "integer",
+            "title": "Total",
+            "description": "Total number of items"
+          },
+          "page": {
+            "type": "integer",
+            "title": "Page",
+            "description": "Current page number"
+          },
+          "size": {
+            "type": "integer",
+            "title": "Size",
+            "description": "Items per page"
+          },
+          "pages": {
+            "type": "integer",
+            "title": "Pages",
+            "description": "Total number of pages"
+          },
+          "has_next": {
+            "type": "boolean",
+            "title": "Has Next",
+            "description": "Whether there is a next page",
+            "readOnly": true
+          },
+          "has_prev": {
+            "type": "boolean",
+            "title": "Has Prev",
+            "description": "Whether there is a previous page",
+            "readOnly": true
+          }
+        },
+        "type": "object",
+        "required": [
+          "data",
+          "total",
+          "page",
+          "size",
+          "pages",
+          "has_next",
+          "has_prev"
+        ],
+        "title": "PaginatedResponse[StudentResponse]"
       },
       "RoomCreate": {
         "properties": {
