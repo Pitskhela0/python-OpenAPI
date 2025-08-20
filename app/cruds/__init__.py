@@ -5,7 +5,9 @@ CRUD operations package - centralized imports
 from .base import (
     count_students,
     count_rooms,
-    get_unassigned_students
+    get_unassigned_students,
+    count_students_filtered,
+    count_rooms_filtered
 )
 
 from .room import (
@@ -36,6 +38,8 @@ __all__ = [
     "count_students",
     "count_rooms",
     "get_unassigned_students",
+    "count_students_filtered",
+    "count_rooms_filtered",
 
     "get_room",
     "get_room_with_students",

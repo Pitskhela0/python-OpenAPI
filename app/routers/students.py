@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 from fastapi import APIRouter, Depends, Query
 from sqlalchemy.orm import Session
 from app.database import get_db
@@ -10,7 +10,8 @@ from app.schemas import (
     StudentWithRoomResponse,
     StudentMoveRequest,
     SexEnum,
-    ErrorResponse
+    ErrorResponse,
+    PaginatedResponse
 )
 
 router = APIRouter()
@@ -18,21 +19,22 @@ router = APIRouter()
 
 @router.get(
     "/",
-    response_model=List[StudentResponse],
+    response_model=PaginatedResponse[StudentResponse],
     summary="Get all students",
-    description="Retrieve all students with optional filtering"
+    description="Retrieve all students with optional filtering and pagination metadata"
 )
 async def get_students(
     skip: int = Query(0, ge=0, description="Number of students to skip"),
-    limit: int = Query(100, ge=1, le=1000, description="Maximum number of students to return"),
+    limit: int = Query(10, ge=1, le=100, description="Maximum number of students to return"),
     name: Optional[str] = Query(None, description="Filter by name (partial match)"),
     sex: Optional[SexEnum] = Query(None, description="Filter by sex (M or F)"),
     room_id: Optional[int] = Query(None, gt=0, description="Filter by room ID"),
     has_room: Optional[bool] = Query(None, description="Filter students with/without room assignment"),
     db: Session = Depends(get_db)
 ):
-    """Get all students with optional filtering and pagination"""
-    return crud.get_students(
+    """Get all students with optional filtering and pagination metadata"""
+
+    students = crud.get_students(
         db=db,
         skip=skip,
         limit=limit,
@@ -40,6 +42,25 @@ async def get_students(
         sex=sex,
         room_id=room_id,
         has_room=has_room
+    )
+
+    total = crud.count_students_filtered(
+        db=db,
+        name=name,
+        sex=sex,
+        room_id=room_id,
+        has_room=has_room
+    )
+
+    pages = (total + limit - 1) // limit if total > 0 else 0
+    page = (skip // limit) + 1
+
+    return PaginatedResponse[StudentResponse](
+        data=students,
+        total=total,
+        page=page,
+        size=limit,
+        pages=pages
     )
 
 

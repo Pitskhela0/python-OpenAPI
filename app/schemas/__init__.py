@@ -40,7 +40,7 @@ __all__ = [
     "StudentMoveRequest",
     "StudentResponse",
     "StudentWithRoomResponse",
-
     "PaginationParams",
     "PaginatedResponse"
 ]
+

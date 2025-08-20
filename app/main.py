@@ -45,8 +45,8 @@ async def root():
         "docs": "/docs",
         "redoc": "/redoc",
         "endpoints": {
-            "students": "/students",
-            "rooms": "/rooms"
+            "students": "/api/v1/students",
+            "rooms": "/api/v1/rooms"
         }
     }
 
@@ -60,5 +60,5 @@ async def health_check():
     }
 
 
-app.include_router(students.router, prefix="/students", tags=["Students"])
-app.include_router(rooms.router, prefix="/rooms", tags=["Rooms"])
+app.include_router(students.router, prefix="/api/v1/students", tags=["Students"])
+app.include_router(rooms.router, prefix="/api/v1/rooms", tags=["Rooms"])
